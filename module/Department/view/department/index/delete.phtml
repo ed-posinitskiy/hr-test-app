@@ -1,0 +1,19 @@
+<?php
+/** @var \Department\Entity\Department $department */
+$department = $this->department;
+$title = $this->translate('Delete department') . ': ' . $department->getName();
+$this->headTitle($title);
+$url = $this->url('department/delete', array('id' => $department->getId()));
+?>
+<h3>
+    <?php
+    echo $this->translate('Are you shore you want to') . ' '
+        . $this->translate('Delete department') . ' '
+        . '"' . $department->getName() . '"?';
+    ?>
+</h3>
+<hr />
+<form action="<?php echo $url; ?>" method="post">
+    <input type="submit" name="delete" value="Yes" class="btn btn-success" />
+    <input type="submit" name="delete" value="No" class="btn btn-danger" />
+</form>

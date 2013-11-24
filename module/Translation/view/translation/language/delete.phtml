@@ -1,0 +1,19 @@
+<?php
+/** @var \Translation\Entity\Language $language */
+$language = $this->language;
+$title = $this->translate('Delete language') . ': ' . $language->getTitle();
+$this->headTitle($title);
+$url = $this->url('language/delete', array('id' => $language->getId()));
+?>
+<h3>
+    <?php
+    echo $this->translate('Are you shore you want to') . ' '
+        . $this->translate('Delete language') . ' '
+        . '"' . $language->getTitle() . '"?';
+    ?>
+</h3>
+<hr />
+<form action="<?php echo $url; ?>" method="post">
+    <input type="submit" name="delete" value="Yes" class="btn btn-success" />
+    <input type="submit" name="delete" value="No" class="btn btn-danger" />
+</form>

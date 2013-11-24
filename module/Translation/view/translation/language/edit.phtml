@@ -1,0 +1,16 @@
+<?php
+/** @var \Translation\Entity\Language $language */
+$language = $this->language;
+$title = $this->translate('Edit language') . ': ' . $language->getTitle();
+$this->headTitle($title);
+$url = $this->url('language/edit', array('id' => $language->getId()));
+/** @var \Translation\Form\LanguageEdit $form */
+$form = $this->form;
+$form->setAttribute('action', $url);
+$form->setAttribute('class', 'form-horizontal');
+$form->prepare();
+?>
+
+<h3><?php echo $title; ?></h3>
+<hr />
+<?php echo $this->ztbForm($form); ?>

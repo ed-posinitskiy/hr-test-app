@@ -1,0 +1,17 @@
+{
+    "name": "ep-lib/hr-test-app",
+    "description": "Test application for HR service",
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "2.2.5",
+        "doctrine/doctrine-orm-module": "0.*",
+        "akrabat/akrabat-session": "dev-master",
+        "rwoverdijk/assetmanager": "1.*",
+        "mwillbanks/zfc-twitter-bootstrap": "@dev"
+    },
+    "require-dev": {
+        "zendframework/zend-developer-tools": "dev-master",
+        "mockery/mockery": "dev-master",
+        "phpunit/phpunit": "3.7.*"
+    }
+}

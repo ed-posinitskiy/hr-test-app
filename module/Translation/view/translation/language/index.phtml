@@ -1,0 +1,44 @@
+<?php
+$title = $this->translate('Language list');
+$this->headTitle($title);
+?>
+
+    <h3>
+        <?php echo $title; ?>
+        <div class="pull-right">
+            <a href="<?php echo $this->url('language/add'); ?>" class="btn btn-info">Add new</a>
+        </div>
+    </h3>
+    <hr/>
+
+<?php if ($this->languages) : ?>
+    <table class="table table-stripped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Locale</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($this->languages as $language) : ?>
+            <tr>
+                <td><?php echo $language->getId(); ?></td>
+                <td><?php echo $language->getTitle(); ?></td>
+                <td><?php echo $language->getLocale(); ?></td>
+                <td>
+                    <a href="<?php echo $this->url('language/edit', array('id' => $language->getId())); ?>"
+                       class="btn btn-success btn-small"><? echo $this->translate('Edit'); ?></a>
+                    <a href="<?php echo $this->url('language/delete', array('id' => $language->getId())); ?>"
+                       class="btn btn-danger btn-small"><? echo $this->translate('Delete'); ?></a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php else : ?>
+    <?php
+    $alertLabel = 'Languages not found. Want to ' . '<a href="' . $this->url('language/add') . '">add one</a>?'; ?>
+    <div class="alert alert-danger"><?php echo $alertLabel; ?></div>
+<?php endif; ?>

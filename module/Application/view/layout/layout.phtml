@@ -1,0 +1,43 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('ZF2 '. $this->translate('Hr Test App'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php echo $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                        ->appendStylesheet($this->basePath() . '/css/compact.css')
+        ; ?>
+
+        <!-- Scripts -->
+        <?php echo $this->headScript()
+            ->appendFile($this->basePath() . '/js/compact.js')
+            ->appendFile($this->basePath() . '/js/ie-conditional.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+        ; ?>
+
+    </head>
+    <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand" href="<?php echo $this->url('home') ?>"><?php echo $this->translate('Hr Test App') ?></a>
+                <?php echo $this->navigation('Navigation')->menu()->setPartial('partial/top-menu.phtml'); ?>
+            </div>
+        </div>
+    </div>
+    <div class="container" id="content-container">
+        <?php echo $this->content; ?>
+        <hr>
+        <footer>
+            <p>&copy; 2005 - <?php echo date('Y') ?></p>
+        </footer>
+    </div> <!-- /container -->
+    <?php echo $this->inlineScript() ?>
+    </body>
+</html>

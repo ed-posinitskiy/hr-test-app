@@ -1,0 +1,19 @@
+<?php
+/** @var \Vacancy\Entity\Vacancy $vacancy */
+$vacancy = $this->vacancy;
+$title = $this->translate('Delete vacancy') . ': "' . $vacancy->getTitle() . '"';
+$this->headTitle($title);
+$url = $this->url('vacancy/delete', array('id' => $vacancy->getId()));
+?>
+<h3>
+    <?php
+    echo $this->translate('Are you shore you want to delete vacancy ') . ' '
+        . '"' . $vacancy->getTitle() . '"? '
+        . 'All the related translations would be deleted as well.';
+    ?>
+</h3>
+<hr />
+<form action="<?php echo $url; ?>" method="post">
+    <input type="submit" name="delete" value="Yes" class="btn btn-success" />
+    <input type="submit" name="delete" value="No" class="btn btn-danger" />
+</form>

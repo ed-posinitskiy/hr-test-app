@@ -1,0 +1,61 @@
+<?php
+$title = $this->translate('Vacancy list');
+$this->headTitle($title);
+/** @var \Zend\Paginator\Paginator $paginator */
+$paginator = $this->paginator;
+?>
+
+<h3>
+    <?php echo $title; ?>
+    <div class="pull-right">
+        <a href="<?php echo $this->url('vacancy/add'); ?>" class="btn btn-info">Add new</a>
+    </div>
+</h3>
+<hr />
+
+<?php echo $this->partial('vacancy/partial/vacancy-filter.phtml', array('element' => $this->filterForm)); ?>
+
+<?php if($paginator->count() > 0) : ?>
+    <table class="table table-stripped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Department</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach($paginator as $vacancy) : ?>
+            <tr>
+                <td><?php echo $vacancy->getId(); ?></td>
+                <td>
+                    <a href="<?php echo $this->url('vacancy/item', array('id' => $vacancy->getId()));?>">
+                        <?php echo $vacancy->getTitle(); ?>
+                    </a>
+                </td>
+                <td><?php echo $vacancy->getDescription(); ?></td>
+                <td><?php echo $vacancy->getDepartment()->getName(); ?></td>
+                <td>
+                    <a href="<?php echo $this->url('translation/add', array('vacancy_id' => $vacancy->getId())); ?>"
+                       class="btn btn-info btn-small"><?php echo $this->translate('Add translation'); ?></a>
+                    <a href="<?php echo $this->url('vacancy/edit', array('id' => $vacancy->getId())); ?>"
+                       class="btn btn-success btn-small"><?php echo $this->translate('Edit'); ?></a>
+                    <a href="<?php echo $this->url('vacancy/delete', array('id' => $vacancy->getId())); ?>"
+                       class="btn btn-danger btn-small"><?php echo $this->translate('Delete'); ?></a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+    <?php echo $this->paginationControl(
+        $paginator,
+        'Sliding',
+        'pagination/bootstrap',
+        array('route' => 'vacancy/list'));
+    ?>
+<?php else : ?>
+    <?php $alertLabel = 'Vacancies not found. Want to <a href="' . $this->url('vacancy/add') . '">add one</a>?'; ?>
+    <div class="alert alert-danger"><?php echo $alertLabel; ?></div>
+<?php endif; ?>

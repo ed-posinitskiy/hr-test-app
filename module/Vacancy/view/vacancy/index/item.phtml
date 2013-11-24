@@ -1,0 +1,44 @@
+<?php
+/** @var \Vacancy\Entity\Vacancy $vacancy */
+$vacancy = $this->vacancy;
+$title = $this->translate('Vacancy') . ': ' . $vacancy->getTitle();
+$this->headTitle($title);
+?>
+
+    <h3>
+        <?php echo $title; ?>
+        <div class="pull-right">
+            <a href="<?php echo $this->url('translation/add', array('vacancy_id' => $vacancy->getId())); ?>"
+               class="btn btn-info"><?php echo $this->translate('Add translation'); ?></a>
+            <a href="<?php echo $this->url('vacancy/edit', array('id' => $vacancy->getId())); ?>"
+               class="btn btn-success"><?php echo $this->translate('Edit'); ?></a>
+            <a href="<?php echo $this->url('vacancy/delete', array('id' => $vacancy->getId())); ?>"
+               class="btn btn-danger"><?php echo $this->translate('Delete'); ?></a>
+        </div>
+    </h3>
+    <hr/>
+    <blockquote><?php echo $vacancy->getDescription(); ?></blockquote>
+    <hr/>
+<?php if ($vacancy->getTranslations()->count() > 0) : ?>
+    <h4>Available translations:</h4>
+    <?php foreach ($vacancy->getTranslations() as $translation) : ?>
+        <div class="row">
+            <div class="span2">
+                <h5><?php echo $translation->getLanguage()->getTitle(); ?></h5>
+                <a href="<?php echo $this->url('translation/edit', array('id' => $translation->getId())); ?>"
+                   class="btn btn-success btn-small"><?php echo $this->translate('Edit'); ?></a>
+                <a href="<?php echo $this->url('translation/delete', array('id' => $translation->getId())); ?>"
+                   class="btn btn-danger btn-small"><?php echo $this->translate('Delete'); ?></a>
+            </div>
+            <div class="span10">
+                <h5><?php echo $translation->getTitle(); ?></h5>
+                <blockquote><?php echo $translation->getDescription(); ?></blockquote>
+            </div>
+        </div>
+    <?php endforeach; ?>
+<?php else : ?>
+    <?php $alertLabel = 'Translations not found. Want to <a href="' . $this->url(
+            'translation/add', array('vacancy_id' => $vacancy->getId())
+        ) . '">add one</a>?'; ?>
+    <div class="alert alert-danger"><?php echo $alertLabel; ?></div>
+<?php endif; ?>

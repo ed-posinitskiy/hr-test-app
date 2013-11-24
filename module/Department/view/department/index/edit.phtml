@@ -1,0 +1,16 @@
+<?php
+/** @var \Department\Entity\Department $department */
+$department = $this->department;
+$title = $this->translate('Edit department') . ': ' . $department->getName();
+$this->headTitle($title);
+$url = $this->url('department/edit', array('id' => $department->getId()));
+/** @var \Department\Form\DepartmentEdit $form */
+$form = $this->form;
+$form->setAttribute('action', $url);
+$form->setAttribute('class', 'form-horizontal');
+$form->prepare();
+?>
+
+<h3><?php echo $title; ?></h3>
+<hr />
+<?php echo $this->ztbForm($form); ?>

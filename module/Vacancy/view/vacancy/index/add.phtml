@@ -1,0 +1,17 @@
+<?php
+$title = $this->translate('Add new vacancy');
+$this->headTitle($title);
+$url = $this->url('vacancy/add');
+/** @var \Vacancy\Form\VacancyEdit $form */
+$form = $this->form;
+$form->setAttribute('action', $url);
+$form->setAttribute('class', 'form-horizontal');
+$form->get('description')->setAttribute('style', 'width: 600px;');
+$form->prepare();
+
+?>
+
+<h3><?php echo $title; ?></h3>
+<hr />
+<?php echo $this->ztbForm($form); ?>
+

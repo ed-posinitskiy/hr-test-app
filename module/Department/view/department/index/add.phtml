@@ -1,0 +1,14 @@
+<?php
+$title = $this->translate('Add new department');
+$this->headTitle($title);
+$url = $this->url('department/add');
+/** @var \Department\Form\DepartmentEdit $form */
+$form = $this->form;
+$form->setAttribute('action', $url);
+$form->setAttribute('class', 'form-horizontal');
+$form->prepare();
+?>
+
+    <h3><?php echo $title; ?></h3>
+    <hr />
+<?php echo $this->ztbForm($form); ?>

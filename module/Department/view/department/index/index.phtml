@@ -1,0 +1,43 @@
+<?php
+$title = $this->translate('List of departments');
+$this->headTitle($title);
+?>
+
+<h3>
+    <?php echo $title; ?>
+    <div class="pull-right">
+        <a href="<?php echo $this->url('department/add'); ?>" class="btn btn-info">Add new</a>
+    </div>
+</h3>
+<hr />
+
+<?php if($this->departments) : ?>
+    <table class="table table-stripped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Available vacancies</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach($this->departments as $department) : ?>
+            <tr>
+                <td><?php echo $department->getId(); ?></td>
+                <td><?php echo $department->getName(); ?></td>
+                <td><?php echo $department->getVacancies()->count(); ?></td>
+                <td>
+                    <a href="<?php echo $this->url('department/edit', array('id' => $department->getId())); ?>"
+                       class="btn btn-success btn-small"><?php echo $this->translate('Edit'); ?></a>
+                    <a href="<?php echo $this->url('department/delete', array('id' => $department->getId())); ?>"
+                       class="btn btn-danger btn-small"><?php echo $this->translate('Delete'); ?></a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php else : ?>
+    <?php $alertLabel = 'Departments not found. Want to ' . '<a href="' . $this->url('department/add') . '">add one</a>?'; ?>
+    <div class="alert alert-danger"><?php echo $alertLabel; ?></div>
+<?php endif; ?>

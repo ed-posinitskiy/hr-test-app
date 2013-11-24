@@ -1,0 +1,17 @@
+<?php
+/** @var \Vacancy\Form\VacancyFilter $form */
+$form = $this->element;
+$url = $this->url('vacancy/list');
+$form->setAttribute('action', $url);
+$form->setAttribute('class', 'form-inline');
+$form->get('submit')->setAttribute('class', 'btn btn-primary');
+$form->prepare();
+?>
+
+<?php echo $this->form()->openTag($form); ?>
+<?php echo $this->formElement($form->get('department')); ?>
+&nbsp;
+<?php echo $this->formElement($form->get('language')); ?>
+&nbsp;
+<?php echo $this->formElement($form->get('submit')); ?>
+<?php echo $this->form()->closeTag(); ?>

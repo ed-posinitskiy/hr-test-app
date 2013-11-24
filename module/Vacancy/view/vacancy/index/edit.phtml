@@ -1,0 +1,19 @@
+<?php
+/** @var \Vacancy\Entity\Vacancy $vacancy */
+$vacancy = $this->vacancy;
+$title = $this->translate('Edit vacancy') . ': ' . $vacancy->getTitle();
+$this->headTitle($title);
+$url = $this->url('vacancy/edit', array('id' => $vacancy->getId()));
+/** @var \Vacancy\Form\VacancyEdit $form */
+$form = $this->form;
+$form->setAttribute('action', $url);
+$form->setAttribute('class', 'form-horizontal');
+$form->get('description')->setAttribute('style', 'width: 600px;');
+$form->prepare();
+
+?>
+
+<h3><?php echo $title; ?></h3>
+<hr />
+<?php echo $this->ztbForm($form); ?>
+
