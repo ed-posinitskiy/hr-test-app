@@ -114,4 +114,10 @@ return array(
             )
         )
     ),
+    'vacancy_module' => array(
+        'base_language' => array(
+            'locale' => 'en',
+            'label' => 'English'
+        )
+    )
 );

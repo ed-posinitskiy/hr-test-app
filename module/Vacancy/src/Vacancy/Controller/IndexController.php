@@ -2,7 +2,10 @@
 
 namespace Vacancy\Controller;
 
+use Translation\Entity\Translation;
+use Vacancy\DataFilter\Backend\DepartmentFllterBackend;
 use Vacancy\DataFilter\Backend\DoctrinePaginationBackend;
+use Vacancy\DataFilter\Backend\LanguageFilterBackend;
 use Vacancy\DataFilter\Backend\VacancyFilterBackend;
 use Vacancy\DataFilter\Filter;
 use Vacancy\DataFilter\Hydrator\ArrayHydrator;
@@ -49,9 +52,16 @@ class IndexController extends AbstractActionController
         return $this->em;
     }
 
+    /**
+     * List of all vacancies with pagination and filters (department, language)
+     */
     public function indexAction()
     {
+        $config = $this->getServiceLocator()->get('Config');
+        $config = isset($config['vacancy_module']) ? $config['vacancy_module'] : array();
+
         $filterForm = new VacancyFilter();
+        $filterForm->setConfig($config);
 
         $departments = $this->getEm()->getRepository('Department\Entity\Department')->findAll();
         $languages = $this->getEm()->getRepository('Translation\Entity\Language')->findAll();
@@ -64,9 +74,15 @@ class IndexController extends AbstractActionController
 
         $filter = new Filter();
         $filter->hydrate(new ArrayHydrator($formData));
-        $vacancyFilterBackend = new VacancyFilterBackend();
-        $vacancyFilterBackend->setQueryAlias('department', 'd.id');
-        $filter->addBackend($vacancyFilterBackend);
+
+        $departmentBackend = new DepartmentFllterBackend('department', 'd.id');
+        $filter->addBackend($departmentBackend);
+
+
+        $languageBackend = new LanguageFilterBackend('language', 'l.locale');
+        $languageBackend->setConfig($config);
+        $filter->addBackend($languageBackend);
+
         $paginationBackend = new DoctrinePaginationBackend($this->params()->fromRoute('page', 1), 5);
         $filter->addBackend($paginationBackend);
 
@@ -80,6 +96,9 @@ class IndexController extends AbstractActionController
         );
     }
 
+    /**
+     * Add a new vacancy
+     */
     public function addAction()
     {
         $departments = $this->getEm()->getRepository('Department\Entity\Department')->findAll();
@@ -96,7 +115,17 @@ class IndexController extends AbstractActionController
                 $form->setHydrator($hydrator);
                 $form->setObject($vacancy)->bindValues();
 
+                $langRepository = $this->getEm()->getRepository('Translation\Entity\Language');
+                $config = $this->getServiceLocator()->get('Config');
+                $langRepository->setConfig(isset($config['vacancy_module']) ? $config['vacancy_module'] : array());
+                $language = $langRepository->findBaseLanguage();
+                $translation = new Translation();
+                $form->setObject($translation)->bindValues();
+                $translation->setVacancy($vacancy);
+                $translation->setLanguage($language);
+
                 $this->getEm()->persist($vacancy);
+                $this->getEm()->persist($translation);
                 $this->getEm()->flush();
 
                 return $this->redirect()->toRoute('vacancy/list');
@@ -108,6 +137,9 @@ class IndexController extends AbstractActionController
         );
     }
 
+    /**
+     * Edit existing vacancy
+     */
     public function editAction()
     {
         $id = $this->params()->fromRoute('id', 0);
@@ -146,6 +178,9 @@ class IndexController extends AbstractActionController
         );
     }
 
+    /**
+     * Delete vacancy and all related translations
+     */
     public function deleteAction()
     {
         $id = $this->params()->fromRoute('id', 0);
@@ -175,6 +210,9 @@ class IndexController extends AbstractActionController
         );
     }
 
+    /**
+     * Detailed vacancy view with list of translations
+     */
     public function itemAction()
     {
         $id = $this->params()->fromRoute('id', 0);

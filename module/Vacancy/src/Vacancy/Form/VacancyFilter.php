@@ -7,6 +7,11 @@ use Zend\Form\Form as ZendForm;
 class VacancyFilter extends ZendForm
 {
 
+    /**
+     * @var array
+     */
+    protected $config = array();
+
     public function __construct($options = array(), $name = 'vacancy_filter')
     {
         parent::__construct($name, $options);
@@ -30,18 +35,15 @@ class VacancyFilter extends ZendForm
                  'name'    => 'language',
                  'type'    => 'Select',
                  'options' => array(
-                     'label'         => 'Language',
-                     'value_options' => array(
-                         0 => 'Base language (en)'
-                     )
+                     'label' => 'Language',
                  ),
             )
         );
 
         $this->add(
             array(
-                 'name' => 'submit',
-                 'type' => 'Submit',
+                 'name'       => 'submit',
+                 'type'       => 'Submit',
                  'attributes' => array(
                      'value' => 'Search'
                  )
@@ -98,15 +100,17 @@ class VacancyFilter extends ZendForm
             throw new \InvalidArgumentException('Given value must be an array or instance of \Traversable');
         }
 
-        if (true === $flush) {
-            $valueOptions = array(0 => 'Base language (en)');
-        } else {
-            $valueOptions = $this->get('language')->getValueOptions();
+        $baseLanguageLocale = isset($this->config['base_language']['locale']) ? $this->config['base_language']['locale'] : '';
+        $baseLanguageLabel = isset($this->config['base_language']['label']) ? $this->config['base_language']['label'] : '';
+
+        $valueOptions = $this->get('language')->getValueOptions();
+        if (true === $flush || empty($valueOptions)) {
+            $valueOptions = array(($baseLanguageLocale) ? : 0 => 'Base language - ' . $baseLanguageLabel);
         }
 
         $newOptions = array();
-        /** @var \Translation\Entity\Language $language*/
-        foreach($languages as $language) {
+        /** @var \Translation\Entity\Language $language */
+        foreach ($languages as $language) {
             $newOptions[$language->getLocale()] = $language->getTitle();
         }
 
@@ -114,4 +118,24 @@ class VacancyFilter extends ZendForm
 
         return $this;
     }
+
+    /**
+     * @param array $config
+     *
+     * @return $this
+     */
+    public function setConfig($config)
+    {
+        $this->config = $config;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
 } 

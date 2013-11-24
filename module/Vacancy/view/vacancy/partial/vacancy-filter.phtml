@@ -14,4 +14,8 @@ $form->prepare();
 <?php echo $this->formElement($form->get('language')); ?>
 &nbsp;
 <?php echo $this->formElement($form->get('submit')); ?>
+&nbsp;
+<a href="<?php echo $this->url('vacancy/list'); ?>" class="btn">
+    <?php echo $this->translate('Reset'); ?>
+</a>
 <?php echo $this->form()->closeTag(); ?>

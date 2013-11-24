@@ -10,7 +10,7 @@ use Translation\Entity\Translation;
 /**
  * Vacancy Entity
  *
- * @ORM\Entity(repositoryClass="Vacancy\Repository\VacancyRepository")
+ * @ORM\Entity(repositoryClass="Vacancy\Repository\Vacam")
  * @ORM\Table(name="vacancy")
  *
  * @package Vacancy\Entity

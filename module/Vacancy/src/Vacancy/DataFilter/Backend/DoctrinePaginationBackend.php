@@ -7,7 +7,14 @@ use Zend\Paginator\Paginator;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator;
 
-class DoctrinePaginationBackend extends DoctrineQueryBuilderAwareAbstract {
+/**
+ * Zend Pagination with Doctrine ORM Pagination filter. Creates instance of Zend\Paginator\Paginator using given
+ * Doctrine QueryBuilder object to get Doctrine Query object
+ *
+ * @package Vacancy\DataFilter\Backend
+ */
+class DoctrinePaginationBackend extends DoctrineQueryBuilderAwareAbstract
+{
 
     const DEFAULT_PER_PAGE = 10;
 
@@ -32,7 +39,9 @@ class DoctrinePaginationBackend extends DoctrineQueryBuilderAwareAbstract {
         $this->setPerPage(($perPage) ? : self::DEFAULT_PER_PAGE);
     }
 
-     /**
+    /**
+     * Set current page number
+     *
      * @param mixed $page
      *
      * @return $this
@@ -44,17 +53,21 @@ class DoctrinePaginationBackend extends DoctrineQueryBuilderAwareAbstract {
     }
 
     /**
+     * Returns current page number
+     *
      * @return mixed
      */
     public function getPage()
     {
-        if(!$this->page) {
+        if (!$this->page) {
             $this->page = 1;
         }
         return $this->page;
     }
 
     /**
+     * Set number of items per page
+     *
      * @param mixed $perPage
      *
      * @return $this
@@ -66,17 +79,21 @@ class DoctrinePaginationBackend extends DoctrineQueryBuilderAwareAbstract {
     }
 
     /**
+     * Returns number of items per page
+     *
      * @return mixed
      */
     public function getPerPage()
     {
-        if(!$this->perPage) {
+        if (!$this->perPage) {
             $this->perPage = static::DEFAULT_PER_PAGE;
         }
         return $this->perPage;
     }
 
     /**
+     * Returns instantiated Paginator object or null if it's not created yet
+     *
      * @return \Zend\Paginator\Paginator
      */
     public function getPaginator()
@@ -84,10 +101,18 @@ class DoctrinePaginationBackend extends DoctrineQueryBuilderAwareAbstract {
         return $this->paginator;
     }
 
+    /**
+     * If the QuieryBuilder object is set, creates Zend\Paginator\Pagination object with DoctrinePaginator adapter, sets
+     * up current page and number of items per page.
+     *
+     * @param Filter $filter
+     *
+     * @return $this
+     */
     public function filter(Filter $filter)
     {
         $qb = $this->getQueryBuilder();
-        if(isset($qb)) {
+        if (isset($qb)) {
             $query = $qb->getQuery();
             $paginator = new Paginator(new DoctrinePaginator(new ORMPaginator($query)));
             $paginator->setCurrentPageNumber($this->getPage());

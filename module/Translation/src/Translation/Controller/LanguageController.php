@@ -43,6 +43,9 @@ class LanguageController extends AbstractActionController
         return $this->em;
     }
 
+    /**
+     * List of all languages
+     */
     public function indexAction()
     {
         $languages = $this->getEm()->getRepository('Translation\Entity\Language')->findAll();
@@ -52,6 +55,9 @@ class LanguageController extends AbstractActionController
         );
     }
 
+    /**
+     * Add a new language
+     */
     public function addAction()
     {
         $form = new LanguageEdit();
@@ -76,6 +82,9 @@ class LanguageController extends AbstractActionController
         );
     }
 
+    /**
+     * Edit existing language
+     */
     public function editAction()
     {
         $id = $this->params()->fromRoute('id', 0);
@@ -111,6 +120,9 @@ class LanguageController extends AbstractActionController
         );
     }
 
+    /**
+     * Delete Language
+     */
     public function deleteAction()
     {
         $id = $this->params()->fromRoute('id', 0);

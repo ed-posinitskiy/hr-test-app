@@ -43,6 +43,9 @@ class IndexController extends AbstractActionController
         return $this->em;
     }
 
+    /**
+     * List of all Departments
+     */
     public function indexAction()
     {
         $departments = $this->getEm()->getRepository('Department\Entity\Department')->findAll();
@@ -52,6 +55,9 @@ class IndexController extends AbstractActionController
         );
     }
 
+    /**
+     * Add new Department
+     */
     public function addAction()
     {
         $form = new DepartmentEdit();
@@ -76,6 +82,9 @@ class IndexController extends AbstractActionController
         );
     }
 
+    /**
+     * Edit existing department
+     */
     public function editAction()
     {
         $id = $this->params()->fromRoute('id', 0);
@@ -111,6 +120,9 @@ class IndexController extends AbstractActionController
         );
     }
 
+    /**
+     * Delete department
+     */
     public function deleteAction()
     {
         $id = $this->params()->fromRoute('id', 0);

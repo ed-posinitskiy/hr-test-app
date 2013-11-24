@@ -6,6 +6,12 @@ use Zend\View\Helper\AbstractHelper;
 use Vacancy\Entity\Vacancy;
 use Translation\Entity\Translation;
 
+/**
+ * View Helper to manage translations of the given Vacancy. Returns translated title end description with given locale.
+ * If locale is not set, uses default locale (en)
+ *
+ * @package Translation\View\Helper
+ */
 class VacancyTranslate extends AbstractHelper
 {
 
@@ -23,9 +29,7 @@ class VacancyTranslate extends AbstractHelper
 
     public function __invoke($locale = null)
     {
-        if(isset($locale)) {
-            $this->matchedTranslation = $this->_findTranslation($locale);
-        }
+        $this->matchedTranslation = $this->_findTranslation(isset($locale) ? $locale : self::DEFAULT_LOCALE);
         return $this;
     }
 
@@ -62,43 +66,55 @@ class VacancyTranslate extends AbstractHelper
     }
 
     /**
+     * Returns current locale
+     *
      * @return string
      */
     public function getLocale()
     {
-        if(!isset($this->matchedTranslation)) {
+        if (!isset($this->matchedTranslation)) {
             return static::DEFAULT_LOCALE;
         }
 
         return $this->matchedTranslation->getLanguage()->getLocale();
     }
 
+    /**
+     * Returns translated title
+     *
+     * @return string
+     */
     public function getTitle()
     {
-        if(!isset($this->matchedTranslation)) {
-            return $this->getVacancy()->getTitle();
-        }
-
         return $this->matchedTranslation->getTitle();
     }
 
-    public function getDescription() {
-        if(!isset($this->matchedTranslation)) {
-            return $this->getVacancy()->getDescription();
-        }
-
+    /**
+     * Returns translated description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
         return $this->matchedTranslation->getTitle();
     }
 
+    /**
+     * Tries to find translation by given locale. Performed every time when __invoke() method been called
+     *
+     * @param $locale
+     *
+     * @return null
+     */
     protected function _findTranslation($locale)
     {
-        if(!isset($this->vacancy)) {
+        if (!isset($this->vacancy)) {
             return null;
         }
 
         $translations = $this->getVacancy()->getTranslations();
-        foreach($translations as $translation) {
-            if($translation->getLanguage()->getLocale() == $locale) {
+        foreach ($translations as $translation) {
+            if ($translation->getLanguage()->getLocale() == $locale) {
                 return $translation;
             }
         }

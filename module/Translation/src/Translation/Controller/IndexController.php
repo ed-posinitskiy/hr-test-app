@@ -44,11 +44,17 @@ class IndexController extends AbstractActionController
         return $this->em;
     }
 
+    /**
+     * Not used yet
+     */
     public function indexAction()
     {
         return array();
     }
 
+    /**
+     * Add a new translation to vacancy
+     */
     public function addAction()
     {
         $vacancy_id = $this->params()->fromRoute('vacancy_id', 0);
@@ -91,6 +97,9 @@ class IndexController extends AbstractActionController
         );
     }
 
+    /**
+     * Edit existing translation
+     */
     public function editAction()
     {
         $id = $this->params()->fromRoute('id', 0);
@@ -130,6 +139,9 @@ class IndexController extends AbstractActionController
         );
     }
 
+    /**
+     * Delete translation
+     */
     public function deleteAction()
     {
         $id = $this->params()->fromRoute('id', 0);

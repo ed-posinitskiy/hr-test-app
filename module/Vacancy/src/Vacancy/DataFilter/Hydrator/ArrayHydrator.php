@@ -7,6 +7,9 @@ use Vacancy\DataFilter\HydratorInterface;
 
 class ArrayHydrator implements HydratorInterface {
 
+    /**
+     * @var array
+     */
     protected $array = array();
 
     public function __construct(array $array = null)
@@ -35,6 +38,13 @@ class ArrayHydrator implements HydratorInterface {
         return $this->array;
     }
 
+    /**
+     * Hydrates array values to Filter values
+     *
+     * @param Filter $filter
+     *
+     * @return mixed|void
+     */
     public function hydrate(Filter $filter)
     {
         foreach($this->array as $key => $value) {
