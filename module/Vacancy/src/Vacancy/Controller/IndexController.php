@@ -66,7 +66,6 @@ class IndexController extends AbstractActionController
         $filter->hydrate(new ArrayHydrator($formData));
         $vacancyFilterBackend = new VacancyFilterBackend();
         $vacancyFilterBackend->setQueryAlias('department', 'd.id');
-        $vacancyFilterBackend->setQueryAlias('language', 'l.locale');
         $filter->addBackend($vacancyFilterBackend);
         $paginationBackend = new DoctrinePaginationBackend($this->params()->fromRoute('page', 1), 5);
         $filter->addBackend($paginationBackend);
@@ -76,7 +75,8 @@ class IndexController extends AbstractActionController
 
         return array(
             'filterForm' => $filterForm,
-            'paginator' => $paginator
+            'paginator' => $paginator,
+            'locale' => $filter->getValue('language')
         );
     }
 

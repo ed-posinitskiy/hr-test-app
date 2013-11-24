@@ -20,6 +20,7 @@ $paginator = $this->paginator;
         <thead>
         <tr>
             <th>ID</th>
+            <th>Lang</th>
             <th>Title</th>
             <th>Description</th>
             <th>Department</th>
@@ -28,14 +29,16 @@ $paginator = $this->paginator;
         </thead>
         <tbody>
         <?php foreach($paginator as $vacancy) : ?>
+            <?php $this->vacancyTranslate()->setVacancy($vacancy); ?>
             <tr>
                 <td><?php echo $vacancy->getId(); ?></td>
+                <td><?php echo $this->vacancyTranslate($this->locale)->getLocale(); ?></td>
                 <td>
                     <a href="<?php echo $this->url('vacancy/item', array('id' => $vacancy->getId()));?>">
-                        <?php echo $vacancy->getTitle(); ?>
+                        <?php echo $this->vacancyTranslate($this->locale)->getTitle(); ?>
                     </a>
                 </td>
-                <td><?php echo $vacancy->getDescription(); ?></td>
+                <td><?php echo $this->vacancyTranslate($this->locale)->getDescription(); ?></td>
                 <td><?php echo $vacancy->getDepartment()->getName(); ?></td>
                 <td>
                     <a href="<?php echo $this->url('translation/add', array('vacancy_id' => $vacancy->getId())); ?>"

@@ -167,5 +167,10 @@ return array(
                 'route' => 'language/list'
             ),
         )
+    ),
+    'view_helpers' => array(
+        'invokables' => array(
+            'vacancyTranslate' => 'Translation\View\Helper\VacancyTranslate'
+        )
     )
 );
