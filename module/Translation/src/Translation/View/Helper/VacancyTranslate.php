@@ -23,7 +23,7 @@ class VacancyTranslate extends AbstractHelper
 
     public function __invoke($locale = null)
     {
-        if(isset($locale)) {
+        if (isset($locale)) {
             $this->matchedTranslation = $this->_findTranslation($locale);
         }
         return $this;
@@ -66,7 +66,7 @@ class VacancyTranslate extends AbstractHelper
      */
     public function getLocale()
     {
-        if(!isset($this->matchedTranslation)) {
+        if (!isset($this->matchedTranslation)) {
             return static::DEFAULT_LOCALE;
         }
 
@@ -75,30 +75,31 @@ class VacancyTranslate extends AbstractHelper
 
     public function getTitle()
     {
-        if(!isset($this->matchedTranslation)) {
+        if (!isset($this->matchedTranslation)) {
             return $this->getVacancy()->getTitle();
         }
 
         return $this->matchedTranslation->getTitle();
     }
 
-    public function getDescription() {
-        if(!isset($this->matchedTranslation)) {
+    public function getDescription()
+    {
+        if (!isset($this->matchedTranslation)) {
             return $this->getVacancy()->getDescription();
         }
 
-        return $this->matchedTranslation->getTitle();
+        return $this->matchedTranslation->getDescription();
     }
 
     protected function _findTranslation($locale)
     {
-        if(!isset($this->vacancy)) {
+        if (!isset($this->vacancy)) {
             return null;
         }
 
         $translations = $this->getVacancy()->getTranslations();
-        foreach($translations as $translation) {
-            if($translation->getLanguage()->getLocale() == $locale) {
+        foreach ($translations as $translation) {
+            if ($translation->getLanguage()->getLocale() == $locale) {
                 return $translation;
             }
         }
