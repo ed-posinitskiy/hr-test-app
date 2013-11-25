@@ -86,6 +86,10 @@ class VacancyTranslate extends AbstractHelper
      */
     public function getTitle()
     {
+        if (!isset($this->matchedTranslation)) {
+            return $this->getVacancy()->getTitle();
+        }
+
         return $this->matchedTranslation->getTitle();
     }
 
@@ -96,7 +100,11 @@ class VacancyTranslate extends AbstractHelper
      */
     public function getDescription()
     {
-        return $this->matchedTranslation->getTitle();
+        if (!isset($this->matchedTranslation)) {
+            return $this->getVacancy()->getDescription();
+        }
+
+        return $this->matchedTranslation->getDescription();
     }
 
     /**
@@ -112,14 +120,22 @@ class VacancyTranslate extends AbstractHelper
             return null;
         }
 
-        $translations = $this->getVacancy()->getTranslations();
-        foreach ($translations as $translation) {
-            if ($translation->getLanguage()->getLocale() == $locale) {
-                return $translation;
-            }
+        if (isset($this->matchedTranslation) && ($this->matchedTranslation->getLanguage()->getLocale() == $locale)) {
+            return $this->matchedTranslation;
         }
 
-        return null;
+        $translations = $this->getVacancy()->getTranslations()->toArray();
+        $matchingLocales = array_unique(array($locale, self::DEFAULT_LOCALE));
+        $matched = array_reduce(
+            $translations, function ($matched, $translation) use ($matchingLocales) {
+                if (in_array($translation->getLanguage()->getLocale(), $matchingLocales)) {
+                    $match[$translation->getLanguage()->getLocale()] = $translation;
+                    return array_merge((is_array($matched) ? $matched : array()), $match);
+                }
+            }
+        );
+
+        return isset($matched[$locale]) ? $matched[$locale] : $matched[self::DEFAULT_LOCALE];
     }
 
 } 
