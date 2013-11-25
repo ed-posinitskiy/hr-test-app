@@ -83,7 +83,7 @@ class IndexController extends AbstractActionController
         $languageBackend->setConfig($config);
         $filter->addBackend($languageBackend);
 
-        $paginationBackend = new DoctrinePaginationBackend($this->params()->fromRoute('page', 1), 5);
+        $paginationBackend = new DoctrinePaginationBackend($this->params()->fromRoute('page', 1), 10);
         $filter->addBackend($paginationBackend);
 
         $repository = $this->getEm()->getRepository('Vacancy\Entity\Vacancy');

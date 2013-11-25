@@ -120,10 +120,6 @@ class VacancyTranslate extends AbstractHelper
             return null;
         }
 
-        if (isset($this->matchedTranslation) && ($this->matchedTranslation->getLanguage()->getLocale() == $locale)) {
-            return $this->matchedTranslation;
-        }
-
         $translations = $this->getVacancy()->getTranslations()->toArray();
         $matchingLocales = array_unique(array($locale, self::DEFAULT_LOCALE));
         $matched = array_reduce(
